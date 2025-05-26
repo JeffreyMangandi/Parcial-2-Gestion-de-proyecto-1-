@@ -1,0 +1,74 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs
+hs_err_pid*
+
+# ===============================
+# ARCHIVOS SENSIBLES - IMPORTANTE
+# ===============================
+# Variables de entorno locales
+.env
+.env.local
+.env.development
+.env.production
+
+# Properties con datos sensibles
+application-secrets.properties
+application-production.properties
+
+# Archivos de configuración con credenciales
+config/secrets/
+src/main/resources/application-prod.properties
+
+# ===============================
+# IDE
+# ===============================
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Maven
+#target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Gradle
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Node.js (si tienes frontend separado)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db

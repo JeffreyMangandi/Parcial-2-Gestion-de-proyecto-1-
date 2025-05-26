@@ -1,0 +1,16 @@
+com\app\web\CrudSpringBootApplication.class
+com\app\web\controlador\CreadorControlador.class
+com\app\web\repositorio\ProyectoRepositorio.class
+com\app\web\servicio\CreadorServicioImpl.class
+com\app\web\entidad\Creador.class
+com\app\web\controlador\DashboardControlador.class
+com\app\web\servicio\CreadorServicio.class
+com\app\web\controlador\LogoutController.class
+com\app\web\controlador\AuthController.class
+com\app\web\servicio\ProyectoServicio.class
+com\app\web\controlador\AuthController$UserProfileInfo.class
+com\app\web\repositorio\CreadorRepositorio.class
+com\app\web\servicio\ProyectoServicioImpl.class
+com\app\web\entidad\Proyecto.class
+com\app\web\config\SecurityConfig.class
+com\app\web\controlador\ProyectoControlador.class

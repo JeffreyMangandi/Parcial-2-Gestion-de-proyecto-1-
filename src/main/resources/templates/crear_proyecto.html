@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Proyecto - ProjectHub</title>
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Colores principales */
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #a5b4fc;
+            --secondary: #1f2937;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            
+            /* Grises modernos */
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            /* Efectos y sombras */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            
+            /* Gradientes */
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            --gradient-success: linear-gradient(135deg, var(--success), #059669);
+            --gradient-bg: linear-gradient(135deg, var(--gray-50) 0%, #ffffff 100%);
+            
+            --border-radius: 12px;
+            --border-radius-lg: 16px;
+            --border-radius-xl: 20px;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gradient-bg);
+            color: var(--gray-900);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Background decorativo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 60% 40%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        /* Header moderno */
+        .modern-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+        
+        .brand-icon {
+            background: var(--gradient-primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .nav-link {
+            color: var(--gray-600) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary) !important;
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        /* Contenedor principal */
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        /* Header del formulario */
+        .form-header {
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: var(--border-radius-xl);
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .form-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .form-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .form-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .form-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .form-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        /* Tarjeta del formulario */
+        .form-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--border-radius-xl);
+            padding: 3rem;
+            box-shadow: var(--shadow-2xl);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            z-index: 1;
+        }
+        
+        /* Grupos de formulario */
+        .form-group {
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: slideInUp 0.6s ease forwards;
+        }
+        
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+        .form-group:nth-child(6) { animation-delay: 0.6s; }
+        .form-group:nth-child(7) { animation-delay: 0.7s; }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .label-icon {
+            color: var(--primary);
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Inputs modernos */
+        .form-input {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--gray-900);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            position: relative;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .form-input::placeholder {
+            color: var(--gray-400);
+            font-weight: 400;
+        }
+        
+        /* Textarea específico */
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+        
+        /* Contenedor de input con icono */
+        .input-container {
+            position: relative;
+        }
+        
+        .input-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            font-size: 1.1rem;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .form-input.with-icon {
+            padding-right: 3rem;
+        }
+        
+        /* Botones modernos */
+        .btn-modern {
+            padding: 1rem 2.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-modern:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary-modern {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-primary-modern:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+            color: white;
+        }
+        
+        .btn-secondary-modern {
+            background: var(--gray-600);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-secondary-modern:hover {
+            background: var(--gray-700);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            color: white;
+        }
+        
+        /* Contenedor de botones */
+        .button-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Grid de formulario */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .form-grid .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        /* Estados de validación */
+        .form-input.is-valid {
+            border-color: var(--success);
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+        
+        .form-input.is-invalid {
+            border-color: var(--danger);
+            background-color: rgba(239, 68, 68, 0.05);
+        }
+        
+        /* Loading state */
+        .btn-loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .btn-loading .spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .form-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .form-title {
+                font-size: 2rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-modern {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .main-container {
+                padding: 1rem;
+            }
+        }
+        
+        /* Animaciones */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        /* Efectos adicionales */
+        .form-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-2xl);
+        }
+        
+        /* Mejoras de accesibilidad */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Focus visible */
+        .form-input:focus-visible,
+        .btn-modern:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+        
+        /* Efectos hover para inputs */
+        .form-input:hover:not(:focus) {
+            border-color: var(--gray-300);
+            background-color: white;
+        }
+        
+        /* Animación de entrada para la página completa */
+        .main-container {
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Estados de error con animación */
+        .form-input.is-invalid {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="modern-header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="/dashboard">
+                    <div class="brand-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    ProjectHub
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/dashboard}">
+                                <i class="fas fa-home me-1"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/proyectos}">
+                                <i class="fas fa-project-diagram me-1"></i> Proyectos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/creadores}">
+                                <i class="fas fa-users me-1"></i> Equipo
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contenido Principal -->
+    <div class="main-container">
+        <!-- Header del formulario -->
+        <div class="form-header">
+            <div class="form-header-content">
+                <h1 class="form-title">
+                    <i class="fas fa-plus-circle"></i>
+                    Nuevo Proyecto
+                </h1>
+                <p class="form-subtitle">Crea un nuevo proyecto innovador para tu equipo</p>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="form-card">
+            <form th:action="@{/proyectos}" th:object="${proyecto}" method="POST" id="projectForm">
+                <div class="form-grid">
+                    <!-- Título -->
+                    <div class="form-group full-width">
+                        <label class="form-label">
+                            <i class="fas fa-heading label-icon"></i>
+                            Título del Proyecto
+                        </label>
+                        <div class="input-container">
+                            <input 
+                                type="text" 
+                                name="titulo" 
+                                th:field="*{titulo}" 
+                                class="form-input with-icon" 
+                                placeholder="Ingrese el título del proyecto"
+                                required
+                                maxlength="100"
+                            >
+                            <i class="fas fa-heading input-icon"></i>
+                        </div>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="form-group full-width">
+                        <label class="form-label">
+                            <i class="fas fa-align-left label-icon"></i>
+                            Descripción
+                        </label>
+                        <div class="input-container">
+                            <textarea 
+                                name="descripcion" 
+                                th:field="*{descripcion}" 
+                                class="form-input form-textarea" 
+                                placeholder="Describa el proyecto, sus objetivos y características principales"
+                                required
+                                maxlength="500"
+                                rows="4"
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Enlace GitHub -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fab fa-github label-icon"></i>
+                            Repositorio GitHub
+                        </label>
+                        <div class="input-container">
+                            <input 
+                                type="url" 
+                                name="enlaceGithub" 
+                                th:field="*{enlaceGithub}" 
+                                class="form-input with-icon" 
+                                placeholder="https://github.com/usuario/repositorio"
+                            >
+                            <i class="fab fa-github input-icon"></i>
+                        </div>
+                    </div>
+
+                    <!-- Fecha de Publicación -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="far fa-calendar-alt label-icon"></i>
+                            Fecha de Publicación
+                        </label>
+                        <div class="input-container">
+                            <input 
+                                type="date" 
+                                name="fechaPublicacion" 
+                                th:field="*{fechaPublicacion}" 
+                                class="form-input with-icon" 
+                                required
+                            >
+                            <i class="far fa-calendar-alt input-icon"></i>
+                        </div>
+                    </div>
+
+                    <!-- Tecnologías -->
+                    <div class="form-group full-width">
+                        <label class="form-label">
+                            <i class="fas fa-laptop-code label-icon"></i>
+                            Tecnologías Utilizadas
+                        </label>
+                        <div class="input-container">
+                            <input 
+                                type="text" 
+                                name="tecnologias" 
+                                th:field="*{tecnologias}" 
+                                class="form-input with-icon" 
+                                placeholder="Java, Spring Boot, React, MySQL, Docker..."
+                                list="tech-suggestions"
+                            >
+                            <i class="fas fa-laptop-code input-icon"></i>
+                            <!-- Sugerencias de tecnologías -->
+                            <datalist id="tech-suggestions">
+                                <option value="Java, Spring Boot, MySQL">
+                                <option value="React, Node.js, MongoDB">
+                                <option value="Angular, TypeScript, PostgreSQL">
+                                <option value="Vue.js, Express, Redis">
+                                <option value="Python, Django, SQLite">
+                                <option value="C#, .NET, SQL Server">
+                                <option value="PHP, Laravel, MySQL">
+                                <option value="Flutter, Dart, Firebase">
+                                <option value="React Native, JavaScript">
+                                <option value="Docker, Kubernetes, AWS">
+                            </datalist>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="button-container">
+                    <button type="submit" class="btn-modern btn-primary-modern" id="submitBtn">
+                        <i class="fas fa-save"></i>
+                        <span class="btn-text">Guardar Proyecto</span>
+                        <div class="spinner" style="display: none;"></div>
+                    </button>
+                    <a th:href="@{/proyectos}" class="btn-modern btn-secondary-modern">
+                        <i class="fas fa-arrow-left"></i>
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Validación en tiempo real y efectos
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('projectForm');
+            const inputs = form.querySelectorAll('.form-input');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Establecer fecha por defecto a hoy
+            const dateInput = form.querySelector('input[type="date"]');
+            if (dateInput && !dateInput.value) {
+                dateInput.value = new Date().toISOString().split('T')[0];
+            }
+            
+            // Validación en tiempo real
+            inputs.forEach(input => {
+                input.addEventListener('blur', validateField);
+                input.addEventListener('input', function() {
+                    clearValidation(this);
+                    updateCharacterCount(this);
+                });
+            });
+            
+            function validateField(e) {
+                const field = e.target;
+                const value = field.value.trim();
+                
+                // Limpiar clases previas
+                field.classList.remove('is-valid', 'is-invalid');
+                
+                if (field.hasAttribute('required') && !value) {
+                    field.classList.add('is-invalid');
+                    showFieldError(field, 'Este campo es obligatorio');
+                    return false;
+                }
+                
+                // Validaciones específicas
+                if (field.type === 'url' && value) {
+                    try {
+                        new URL(value);
+                        if (field.name === 'enlaceGithub' && !value.includes('github.com')) {
+                            field.classList.add('is-invalid');
+                            showFieldError(field, 'Debe ser un enlace válido de GitHub');
+                            return false;
+                        }
+                    } catch {
+                        field.classList.add('is-invalid');
+                        showFieldError(field, 'URL no válida');
+                        return false;
+                    }
+                }
+                
+                if (field.type === 'date' && value) {
+                    const selectedDate = new Date(value);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    
+                    if (selectedDate < today) {
+                        field.classList.add('is-invalid');
+                        showFieldError(field, 'La fecha no puede ser anterior a hoy');
+                        return false;
+                    }
+                }
+                
+                if (value) {
+                    field.classList.add('is-valid');
+                    hideFieldError(field);
+                }
+                
+                return true;
+            }
+            
+            function clearValidation(field) {
+                field.classList.remove('is-invalid');
+                hideFieldError(field);
+            }
+            
+            function showFieldError(field, message) {
+                hideFieldError(field);
+                
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'field-error';
+                errorDiv.style.cssText = `
+                    color: var(--danger);
+                    font-size: 0.8rem;
+                    margin-top: 0.5rem;
+                    padding: 0.5rem;
+                    background: rgba(239, 68, 68, 0.1);
+                    border-radius: 8px;
+                    border-left: 3px solid var(--danger);
+                `;
+                errorDiv.textContent = message;
+                
+                field.parentElement.appendChild(errorDiv);
+            }
+            
+            function hideFieldError(field) {
+                const errorDiv = field.parentElement.querySelector('.field-error');
+                if (errorDiv) {
+                    errorDiv.remove();
+                }
+            }
+            
+            function updateCharacterCount(field) {
+                const maxLength = field.getAttribute('maxlength');
+                if (maxLength) {
+                    const remaining = maxLength - field.value.length;
+                    let countDiv = field.parentElement.querySelector('.char-count');
+                    
+                    if (!countDiv) {
+                        countDiv = document.createElement('div');
+                        countDiv.className = 'char-count';
+                        countDiv.style.cssText = `
+                            font-size: 0.7rem;
+                            color: var(--gray-500);
+                            text-align: right;
+                            margin-top: 0.25rem;
+                        `;
+                        field.parentElement.appendChild(countDiv);
+                    }
+                    
+                    countDiv.textContent = `${remaining} caracteres restantes`;
+                    countDiv.style.color = remaining < 20 ? 'var(--danger)' : 'var(--gray-500)';
+                }
+            }
+            
+            // Envío del formulario con loading state
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validar todos los campos
+                let isValid = true;
+                inputs.forEach(input => {
+                    if (!validateField({target: input})) {
+                        isValid = false;
+                    }
+                });
+                
+                if (!isValid) {
+                    // Scroll al primer campo inválido
+                    const firstInvalid = form.querySelector('.is-invalid');
+                    if (firstInvalid) {
+                        firstInvalid.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                        firstInvalid.focus();
+                    }
+                    return;
+                }
+                
+                // Mostrar loading state
+                submitBtn.classList.add('btn-loading');
+                submitBtn.querySelector('.btn-text').textContent = 'Guardando...';
+                submitBtn.querySelector('.spinner').style.display = 'inline-block';
+                submitBtn.querySelector('i').style.display = 'none';
+                
+                // Simular delay para mostrar loading (remover en producción)
+                setTimeout(() => {
+                    form.submit();
+                }, 1000);
+            });
+            
+            // Auto-focus al primer campo
+            const firstInput = form.querySelector('.form-input');
+            if (firstInput) {
+                setTimeout(() => firstInput.focus(), 500);
+            }
+            
+            // Animación de entrada para los elementos del formulario
+            const formGroups = document.querySelectorAll('.form-group');
+            formGroups.forEach((group, index) => {
+                group.style.animationDelay = `${0.1 + (index * 0.1)}s`;
+            });
+            
+            // Funciones de utilidad para mejorar UX
+            function showToast(message, type = 'success') {
+                const toast = document.createElement('div');
+                toast.className = `toast-notification toast-${type}`;
+                toast.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                    <span>${message}</span>
+                `;
+                
+                // Estilos para el toast
+                toast.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${type === 'success' ? 'var(--success)' : 'var(--danger)'};
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: var(--border-radius);
+                    box-shadow: var(--shadow-xl);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-weight: 500;
+                    transform: translateX(100%);
+                    transition: transform 0.3s ease;
+                `;
+                
+                document.body.appendChild(toast);
+                
+                // Animación de entrada
+                setTimeout(() => {
+                    toast.style.transform = 'translateX(0)';
+                }, 100);
+                
+                // Auto-remover después de 3 segundos
+                setTimeout(() => {
+                    toast.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 300);
+                }, 3000);
+            }
+            
+            // Prevenir envío duplicado
+            let isSubmitting = false;
+            form.addEventListener('submit', function(e) {
+                if (isSubmitting) {
+                    e.preventDefault();
+                    return false;
+                }
+                isSubmitting = true;
+            });
+            
+            // Shortcuts de teclado
+            document.addEventListener('keydown', function(e) {
+                // Ctrl/Cmd + Enter para enviar
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    submitBtn.click();
+                }
+                
+                // Escape para cancelar
+                if (e.key === 'Escape') {
+                    const cancelBtn = document.querySelector('.btn-secondary-modern');
+                    if (cancelBtn) {
+                        if (confirm('¿Estás seguro de que quieres cancelar? Los cambios no guardados se perderán.')) {
+                            cancelBtn.click();
+                        }
+                    }
+                }
+            });
+            
+            // Guardar progreso en localStorage (draft)
+            const form_inputs = form.querySelectorAll('input, textarea');
+            
+            // Cargar draft al iniciar
+            form_inputs.forEach(input => {
+                const savedValue = localStorage.getItem(`project_draft_${input.name}`);
+                if (savedValue && !input.value) {
+                    input.value = savedValue;
+                }
+            });
+            
+            // Guardar draft mientras se escribe
+            form_inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.value.trim()) {
+                        localStorage.setItem(`project_draft_${this.name}`, this.value);
+                    } else {
+                        localStorage.removeItem(`project_draft_${this.name}`);
+                    }
+                });
+            });
+            
+            // Limpiar draft al enviar exitosamente
+            form.addEventListener('submit', function() {
+                form_inputs.forEach(input => {
+                    localStorage.removeItem(`project_draft_${input.name}`);
+                });
+            });
+            
+            // Confirmación antes de salir si hay cambios
+            let hasChanges = false;
+            form_inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    hasChanges = true;
+                });
+            });
+            
+            window.addEventListener('beforeunload', function(e) {
+                if (hasChanges && !isSubmitting) {
+                    e.preventDefault();
+                    e.returnValue = '¿Estás seguro de que quieres salir? Los cambios no guardados se perderán.';
+                    return e.returnValue;
+                }
+            });
+            
+            // Mejorar accesibilidad con aria-labels
+            const requiredInputs = document.querySelectorAll('input[required], textarea[required]');
+            requiredInputs.forEach(input => {
+                input.setAttribute('aria-required', 'true');
+                
+                const label = input.parentElement.parentElement.querySelector('.form-label');
+                if (label && !label.textContent.includes('*')) {
+                    label.innerHTML += ' <span style="color: var(--danger);">*</span>';
+                }
+            });
+            
+            // Efecto de hover mejorado para inputs
+            inputs.forEach(input => {
+                input.addEventListener('mouseenter', function() {
+                    if (!this.matches(':focus')) {
+                        this.style.transform = 'translateY(-1px)';
+                        this.style.boxShadow = 'var(--shadow-md)';
+                    }
+                });
+                
+                input.addEventListener('mouseleave', function() {
+                    if (!this.matches(':focus')) {
+                        this.style.transform = 'translateY(0)';
+                        this.style.boxShadow = 'none';
+                    }
+                });
+                
+                input.addEventListener('focus', function() {
+                    this.style.transform = 'translateY(-1px)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Formato automático para URLs de GitHub
+            const githubInput = form.querySelector('input[name="enlaceGithub"]');
+            if (githubInput) {
+                githubInput.addEventListener('blur', function() {
+                    let value = this.value.trim();
+                    if (value && !value.startsWith('http')) {
+                        if (value.includes('github.com')) {
+                            this.value = 'https://' + value;
+                        }
+                    }
+                });
+            }
+            
+            // Sugerencias inteligentes para tecnologías
+            const techInput = form.querySelector('input[name="tecnologias"]');
+            if (techInput) {
+                techInput.addEventListener('input', function() {
+                    const value = this.value.toLowerCase();
+                    const suggestions = [];
+                    
+                    // Sugerencias basadas en lo que el usuario está escribiendo
+                    if (value.includes('java') && !value.includes('javascript')) {
+                        suggestions.push('Spring Boot', 'Maven', 'Hibernate');
+                    }
+                    if (value.includes('react')) {
+                        suggestions.push('Redux', 'Next.js', 'Material-UI');
+                    }
+                    if (value.includes('node')) {
+                        suggestions.push('Express', 'MongoDB', 'JWT');
+                    }
+                    if (value.includes('python')) {
+                        suggestions.push('Django', 'Flask', 'NumPy');
+                    }
+                    
+                    // Actualizar datalist dinámicamente
+                    const datalist = document.getElementById('tech-suggestions');
+                    if (suggestions.length > 0) {
+                        suggestions.forEach(suggestion => {
+                            if (!Array.from(datalist.options).some(option => option.value.includes(suggestion))) {
+                                const option = document.createElement('option');
+                                option.value = this.value + ', ' + suggestion;
+                                datalist.appendChild(option);
+                            }
+                        });
+                    }
+                });
+            }
+            
+            // Indicador de progreso del formulario
+            function updateProgress() {
+                const totalFields = form.querySelectorAll('input[required], textarea[required]').length;
+                const completedFields = form.querySelectorAll('input[required]:valid, textarea[required]:valid').length;
+                const progress = (completedFields / totalFields) * 100;
+                
+                let progressBar = document.querySelector('.form-progress');
+                if (!progressBar) {
+                    progressBar = document.createElement('div');
+                    progressBar.className = 'form-progress';
+                    progressBar.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        height: 3px;
+                        background: var(--gradient-primary);
+                        transition: width 0.3s ease;
+                        z-index: 9999;
+                        width: 0%;
+                    `;
+                    document.body.appendChild(progressBar);
+                }
+                
+                progressBar.style.width = progress + '%';
+                
+                if (progress === 100) {
+                    progressBar.style.background = 'var(--gradient-success)';
+                }
+            }
+            
+            // Actualizar progreso en tiempo real
+            inputs.forEach(input => {
+                input.addEventListener('input', updateProgress);
+                input.addEventListener('blur', updateProgress);
+            });
+            
+            // Inicializar progreso
+            setTimeout(updateProgress, 500);
+        });
+    </script>
+    
+    <style>
+        /* Estilos adicionales para toast notifications */
+        .toast-notification {
+            animation: slideInRight 0.3s ease;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Estilos para campos requeridos */
+        .form-label span {
+            font-size: 0.8em;
+            margin-left: 0.25rem;
+        }
+        
+        /* Mejoras para el estado de loading */
+        .btn-loading {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: loading-shimmer 1.5s infinite;
+        }
+        
+        @keyframes loading-shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        /* Efecto de validación exitosa */
+        .form-input.is-valid {
+            position: relative;
+        }
+        
+        .form-input.is-valid::after {
+            content: '✓';
+            position: absolute;
+            right: 2.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* Mejorar el diseño del textarea */
+        .form-textarea {
+            font-family: inherit;
+        }
+        
+        /* Efectos de focus mejorados */
+        .form-input:focus {
+            box-shadow: 
+                0 0 0 4px rgba(99, 102, 241, 0.1),
+                0 4px 12px rgba(99, 102, 241, 0.15);
+        }
+        
+        /* Estilo para el progreso del formulario */
+        .form-progress {
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+        
+        /* Animaciones adicionales */
+        @keyframes formCardEntry {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .form-card {
+            animation: formCardEntry 0.6s ease-out;
+        }
+        
+        /* Estilos para dark mode (si se activa) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --gray-50: #1f2937;
+                --gray-100: #374151;
+                --gray-200: #4b5563;
+                --gray-900: #f9fafb;
+            }
+        }
+    </style>
+</body>
+</html>

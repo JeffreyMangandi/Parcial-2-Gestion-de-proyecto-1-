@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"  
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"> 
+ 
+	<modelVersion>4.0.0</modelVersion> 
+ 
+	<parent> 
+		<groupId>org.springframework.boot</groupId> 
+		<artifactId>spring-boot-starter-parent</artifactId> 
+		<version>3.1.5</version> 
+		<relativePath/> 
+	</parent> 
+ 
+	<groupId>com.app.crud</groupId> 
+	<artifactId>com.app.crud</artifactId> 
+	<version>1.0</version> 
+	<name>CRUD-SpringBoot</name> 
+	<description>CRUD en Spring Boot con Auth0</description> 
+ 
+	<properties> 
+		<java.version>17</java.version>
+		<maven.compiler.source>17</maven.compiler.source>     
+		<maven.compiler.target>17</maven.compiler.target> 
+	</properties> 
+ 
+	<dependencies>  
+		<!-- Spring Boot Starter Data JPA -->
+		<dependency> 
+			<groupId>org.springframework.boot</groupId> 
+			<artifactId>spring-boot-starter-data-jpa</artifactId> 
+		</dependency> 
+		 
+		<!-- PostgreSQL Driver -->
+		<dependency>     
+			<groupId>org.postgresql</groupId>     
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency> 
+		 
+		<!-- Spring Boot Web Starter -->
+		<dependency> 
+			<groupId>org.springframework.boot</groupId> 
+			<artifactId>spring-boot-starter-web</artifactId> 
+		</dependency> 
+		 
+		<!-- Thymeleaf Template Engine -->
+		<dependency> 
+			<groupId>org.springframework.boot</groupId> 
+			<artifactId>spring-boot-starter-thymeleaf</artifactId> 
+		</dependency>
+		
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		
+		<!-- OAuth2 Client for Auth0 Integration -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+		
+		<!-- ✅ CORREGIDO: Thymeleaf Security Extensions para Spring Boot 3.x -->
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
+		</dependency>
+		
+		<!-- ✅ AGREGADO: Para leer variables de entorno desde .env -->
+		<dependency>
+			<groupId>me.paulschwarz</groupId>
+			<artifactId>spring-dotenv</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		
+		<!-- Spring Boot DevTools -->
+		<dependency> 
+			<groupId>org.springframework.boot</groupId> 
+			<artifactId>spring-boot-devtools</artifactId> 
+			<scope>runtime</scope> 
+			<optional>true</optional> 
+		</dependency>  
+		
+		<!-- Validation Starter -->
+		<dependency>             
+			<groupId>org.springframework.boot</groupId>             
+			<artifactId>spring-boot-starter-validation</artifactId>         
+		</dependency>  
+		
+		<!-- Spring Boot Test Starter -->
+		<dependency>     
+			<groupId>org.springframework.boot</groupId>     
+			<artifactId>spring-boot-starter-test</artifactId>     
+			<scope>test</scope> 
+		</dependency> 
+	 
+	</dependencies>  
+
+	<build> 
+		<plugins> 
+			<plugin> 
+				<groupId>org.springframework.boot</groupId> 
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin> 
+		</plugins> 
+	</build>  
+
+</project>
