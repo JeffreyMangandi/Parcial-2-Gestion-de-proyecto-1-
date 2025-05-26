@@ -49,7 +49,7 @@ src/main/resources/application-prod.properties
 *.ipr
 
 # Maven
-#target/
+target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
